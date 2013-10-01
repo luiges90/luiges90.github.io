@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Tilt Blocks</title>
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	
+	<script type="text/javascript" src="lib/jquery.mousewheel.js"></script>
+	<script type="text/javascript" src="lib/jquery.jscrollpane.min.js"></script>
+	<script type="text/javascript" src="tb.min.js"></script>
+	
+	<link type="text/css" href="http://reset5.googlecode.com/hg/reset.min.css" rel="stylesheet" media="all">
+	
+	<link type="text/css" href="lib/jquery.jscrollpane.css" rel="stylesheet" media="all">
+	<link type="text/css" href="tb.min.css" rel="stylesheet" media="all">
+	
+</head>
+<body>
+	<div class="scene" id="main-menu-scene">
+		<div class="title">Tilt Blocks</div>
+		<div class="buttons">
+			<div class="button start">Start Game</div>
+			<div class="button clear-progress">Clear Progress</div>
+			<div id="progress-clear-alert"></div>
+			<div class="button level-select">Level Select</div>
+			<div class="button level-editor">Level Editor</div>
+		</div>
+	</div>
+	<div class="scene" id="level-select-scene">
+		<div class="title">Level Select</div>
+		<div class="levels"></div>
+		<div class="left"></div>
+		<div class="right"></div>
+	</div>
+	<div class="scene" id="game-scene">
+		<div class="game">
+			<div class="board">
+			</div>
+			<div class="panel">
+				<div class="level info"><span class="title">Level:</span><span class="content">10-10</span></div>
+				<div class="steps info"><span class="title">Step:</span><span class="content">15/15</span></div>
+				<div id="arrows">
+					<div id="up" class="arrow up"></div>
+					<div id="down" class="arrow down"></div>
+					<div id="left" class="arrow left"></div>
+					<div id="right" class="arrow right"></div>
+				</div>
+				<div class="button retry">Retry</div>
+				<div class="button home">Main Menu</div>
+			</div>
+		</div>
+	</div>
+	<div class="scene" id="level-editor-scene">
+		<div class="game">
+			<div class="board">
+			</div>
+			<div class="panel playing">
+				<div class="steps info"><span class="title">Step:</span><span class="content">15/15</span></div>
+				<div id="arrows">
+					<div id="up" class="arrow up"></div>
+					<div id="down" class="arrow down"></div>
+					<div id="left" class="arrow left"></div>
+					<div id="right" class="arrow right"></div>
+				</div>
+				<div class="button back">Back</div>
+			</div>
+			<div class="panel editing">
+				<div class="steps info">
+					<span class="title">Step:</span>
+					<span class="content"><input class="step-limit" value="99" maxlength="2"></span>
+				</div>
+				<div class="button load">Load</div>
+				<div class="button save">Save</div>
+				<div class="button play">Play</div>
+				<div class="button home">Main Menu</div>
+				<div class="palette-table">
+					<div class="palette empty active"></div>
+					<div class="palette wall" data-code="X"></div>
+					<div class="palette redBlock" data-code="1"></div>
+					<div class="palette greenBlock" data-code="2"></div>
+					<div class="palette blueBlock" data-code="3"></div>
+					<div class="palette yellowBlock" data-code="4"></div>
+					<div class="palette stoneBlock" data-code="0"></div>
+					<div class="palette rainbowBlock" data-code="9"></div>
+					<div class="palette leftArrow" data-code="A"></div>
+					<div class="palette rightArrow" data-code="D"></div>
+					<div class="palette upArrow" data-code="W"></div>
+					<div class="palette downArrow" data-code="S"></div>
+					<div class="palette sticky" data-code="T"></div>
+					<div class="palette redTrigger" data-code="H"></div>
+					<div class="palette redGate" data-code="U"></div>
+					<div class="palette greenTrigger" data-code="J"></div>
+					<div class="palette blueTrigger" data-code="K"></div>
+					<div class="palette yellowTrigger" data-code="L"></div>
+					<div class="palette greenGate" data-code="I"></div>
+					<div class="palette blueGate" data-code="O"></div>
+					<div class="palette yellowGate" data-code="P"></div>
+					<div class="palette wallLeft" data-code="C"></div>
+					<div class="palette wallUp" data-code="F"></div>
+					<div class="palette wallDown" data-code="V"></div>
+					<div class="palette wallRight" data-code="B"></div>
+					<div class="palette noMatch" data-code="N"></div>
+					<div class="palette redWrap" data-code="Q"></div>
+					<div class="palette greenWrap" data-code="Z"></div>
+					<div class="palette blueWrap" data-code="E"></div>
+					<div class="palette yellowWrap" data-code="R"></div>
+				</div>
+			</div>
+		</div>
+		<div id="editor-load-background" class="editor load popup-bg"></div>
+		<div id="editor-load" class="editor load popup">
+			<div class="info">
+				Put your level code here.<br>
+				<textarea class="level-code" spellcheck="false"></textarea>
+			</div>
+			<div class="buttons">
+				<div class="button save-load-ok">Cancel</div>
+				<div class="button load-level save-load-ok">OK</div>
+			</div>
+		</div>
+		<div id="editor-save-background" class="editor save popup-bg"></div>
+		<div id="editor-save" class="editor save popup">
+			<div class="info">
+				Copy your level code somewhere and save it.<br>
+				<textarea class="level-code" spellcheck="false" readonly></textarea>
+			</div>
+			<div class="buttons">
+				<div class="button save-load-ok">OK</div>
+			</div>
+		</div>
+	</div>
+	<div id="level-cleared-background" class="level-cleared popup-bg"></div>
+	<div id="level-cleared" class="level-cleared popup">
+		<div class="title">Level cleared!</div>
+		<div class="info"><span class="content">Steps remain: 1</span></div>
+		<div class="buttons main">
+			<div class="button home">Main Menu</div>
+			<div class="button retry">Retry</div>
+			<div class="button next">Next Level</div>
+		</div>
+		<div class="buttons editor">
+			<div class="button ok">OK</div>
+		</div>
+	</div>
+	<div id="level-failed-background" class="level-failed popup-bg"></div>
+	<div id="level-failed" class="level-failed popup">
+		<div class="title">Level failed...</div>
+		<div class="info"><span class="content">Too many steps!</span></div>
+		<div class="buttons main">
+			<div class="button home">Main Menu</div>
+			<div class="button retry">Retry</div>
+		</div>
+		<div class="buttons editor">
+			<div class="button ok">OK</div>
+		</div>
+	</div>
+	<div id="game-cleared-background" class="game-cleared popup-bg"></div>
+	<div id="game-cleared" class="game-cleared popup">
+		<div class="title">Congratulations!!</div>
+		<div class="info"><span class="content">You have beaten the game!</span></div>
+		<div class="buttons main">
+			<div class="button home">Main Menu</div>
+		</div>
+	</div>
+	<div id="popup-layer"></div>
+	<div class="tip-popup"><div class="tip-box">
+		<span class="tip-text">
+			<span class="tip-main">These are blocks. Eliminate them by putting them together.</span><br>
+			<span class="tip-dismiss">Click to dismiss.</span>
+		</span>
+	</div></div>
+	<a href="https://github.com/luiges90/TiltBlocks"><img style="position: absolute; top: 0; right: 0; border: 0" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>sq.js</title>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script type="text/javascript" src="lib/Box2dWeb-2.1.a.3.min.js"></script>
+	
+	<script type="text/javascript" src="sq.min.js"></script>
+	<link type="text/css" href="sq.min.css" rel="stylesheet" media="all">
+
+	
+	
+</head>
+<body oncontextmenu="return false">
+	<canvas id="game-scene" class="scene" width="600" height="600">Sorry, but it seems your browser is really old! Try IE 9+, Firefox 3.5+, Chrome or Opera 10.5+</canvas>
+	<div class="scene" id="start-scene" style="display: block">
+		<div id="title">
+			<img src="img/title.png">
+		</div>
+		<div id="buttons">
+			<div class="button" id="start">Start</div>
+			<div class="button" id="hiscore">Hiscore</div>
+			
+		</div>
+	</div>
+	<div class="scene" id="instruction-scene">
+	</div>
+	<div class="scene" id="hiscore-scene">
+		<div class="table-container">
+			<table class="hiscore-table">
+			</table>
+		</div>
+		<div class="button-container">
+			<div class="button back">Back</div>
+			<div class="button clear">Clear</div>
+		</div>
+	</div>
+	<a href="https://github.com/luiges90/sqjs"><img style="position: absolute; top: 0; right: 0; border: 0" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+	<audio src="sound/bulletDestroy.ogg" class="soundbulletDestroyogg ended"></audio>
+	<audio src="sound/destroy.ogg" class="sounddestroyogg ended"></audio>
+	<audio src="sound/fire.ogg" class="soundfireogg ended"></audio>
+	<audio src="sound/hit.ogg" class="soundhitogg ended"></audio>
+	<audio src="sound/playerDestroy.ogg" class="soundplayerDestroyogg ended"></audio>
+	<audio src="sound/playerFire.ogg" class="soundplayerFireogg ended"></audio>
+	<audio src="sound/powerup.ogg" class="soundpowerupogg ended"></audio>
+	<audio src="sound/teleport.ogg" class="soundteleportogg ended"></audio>
+</body>
+</html>
