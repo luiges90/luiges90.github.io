@@ -21,7 +21,7 @@
   <body>
       <div id="header">
         <nav>
-          <li class="fork"><a href="https://github.com/luiges90">View On GitHub</a></li>
+          <li class="fork"><a href="https://github.com/luiges90" onClick="trackOutboundLink(this, 'Header To Github', 'https://github.com/luiges90'); return false;">View On GitHub</a></li>
         </nav>
       </div><!-- end header -->
 
@@ -32,7 +32,7 @@
           <h1>Need No Name.</h1>
           <p></p>
           <hr>
-          <span class="credits left">Project maintained by <a href="https://github.com/luiges90">luiges90</a></span>
+          <span class="credits left">Project maintained by <a href="https://github.com/luiges90" onClick="trackOutboundLink(this, 'Credit To Github', 'https://github.com/luiges90'); return false;">luiges90</a></span>
           <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
         </div>
 
@@ -60,16 +60,27 @@
 
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-              <script type="text/javascript">
-            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-          </script>
-          <script type="text/javascript">
-            try {
-              var pageTracker = _gat._getTracker("UA-44491635-1");
-            pageTracker._trackPageview();
-            } catch(err) {}
-          </script>
+	<script type="text/javascript">
+		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+		document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+	<script type="text/javascript">
+		try {
+			var pageTracker = _gat._getTracker("UA-44491635-1");
+			pageTracker._trackPageview();
+		} catch(err) {}
+	</script>
+	<script type="text/javascript">
+		function trackOutboundLink(link, category, action) { 
+			try { 
+				_gaq.push(['_trackEvent', category , action]); 
+			} catch(err){}
+
+			setTimeout(function() {
+				document.location.href = link.href;
+			}, 100);
+		}
+	</script>
 
   </body>
 </html>

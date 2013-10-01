@@ -169,7 +169,7 @@
 			<span class="tip-dismiss">Click to dismiss.</span>
 		</span>
 	</div></div>
-	<a href="https://github.com/luiges90"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub"></a>
+	<a href="https://github.com/luiges90" onClick="trackOutboundLink(this, 'Fork To Github', 'https://github.com/luiges90'); return false;"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub"></a>
 <a href="http://luiges90.github.io"><img style="position: absolute; top: 0; left: 0; border: 0;" src="http://luiges90.github.io/images/home.png" alt="Need No Name."></a>
 
 <script>
@@ -181,6 +181,18 @@
   ga('create', 'UA-44491635-1', 'luiges90.github.io');
   ga('send', 'pageview');
 
+</script>
+
+<script type="text/javascript">
+function trackOutboundLink(link, category, action) { 
+	try { 
+		_gaq.push(['_trackEvent', category, action]); 
+	} catch(err){}
+	 
+	setTimeout(function() {
+		document.location.href = link.href;
+	}, 100);
+}
 </script>
 </body>
 </html>
