@@ -7,3 +7,7 @@ section img {
 .clearfix {
 	clear: both;
 }
+
+.more-details {
+	display: none;
+}
