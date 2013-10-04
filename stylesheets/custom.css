@@ -1,11 +1,13 @@
 section img {
 	max-width: 300px;
 	margin-right: 20px;
-	float: left;
+	display: inline-block;
+	vertical-align: top;
 }
 
-.clearfix {
-	clear: both;
+section .description {
+	max-width: 300px;
+	display: inline-block;
 }
 
 .more-details {
