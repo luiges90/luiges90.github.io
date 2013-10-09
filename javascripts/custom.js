@@ -50,12 +50,10 @@ $(function(){
 	
 	(function(){
 		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-		$.getScript(gaJsHost + 'google-analytics.com/ga.js');
-		
-		try {
+		$.getScript(gaJsHost + 'google-analytics.com/ga.js', function(a, b, c){
 			var pageTracker = _gat._getTracker("UA-44491635-1");
 			pageTracker._trackPageview();
-		} catch(err) {}
+		});
 	})();
 });
 
