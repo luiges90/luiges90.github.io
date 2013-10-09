@@ -12,4 +12,8 @@ $(function(){
 		});
 		return false;
 	});
+
+	$.get('header.html', '', function(data){
+		$('#header').html(data);
+	}, 'html');
 });
