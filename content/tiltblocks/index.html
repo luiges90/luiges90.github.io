@@ -265,7 +265,7 @@ function trackOutboundLink(link, category, action) {
 
 <div id="comment-open" style="position: fixed; right: 0px; bottom: 0px; font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif;font-size: 32px;color: #B6B6B6;background-color: #000000;padding: 10px 5px 5px 10px;border-top-left-radius: 10px; cursor: pointer;">Comments</div>
 
-<div id="disqus_thread" style="display: none; position: absolute; width: 80%; left: 10%; top: 10%; background-color: #191919; background-color: rgba(0, 0, 0, 0.9); padding: 10px;"></div>
+<div id="disqus_thread" style="opacity: 0; filter: alpha(opacity=0); position: absolute; width: 80%; left: 10%; top: 10%; background-color: #191919; background-color: rgba(0, 0, 0, 0.9); padding: 10px;"></div>
 <script type="text/javascript">
 	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
 	var disqus_shortname = 'luiges90'; // required: replace example with your forum shortname
@@ -282,9 +282,9 @@ function trackOutboundLink(link, category, action) {
 
 <script type="text/javascript">
 	$('#comment-open').click(function(){
-		$('#disqus_thread').fadeIn();
+		$('#disqus_thread').animate({'opacity': 1});
 		$(document).one('click', function(){
-			$('#disqus_thread').fadeOut();
+			$('#disqus_thread').animate({'opacity': 0});
 		});
 		return false;
 	});
