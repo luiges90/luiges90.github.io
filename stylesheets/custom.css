@@ -16,6 +16,11 @@
 #share {
 	max-width: 250px;
 	margin: 0 auto;
+	text-align: middle;
+}
+
+iframe[id^="twitter-widget"] {
+	width: 80px !important;
 }
 
 @media (min-width: 550px) {
