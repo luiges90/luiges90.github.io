@@ -8,6 +8,10 @@ $(function(){
 		$('#footer').html(data);
 	}, 'html');
 	
+	$.get('/share.html', '', function(data){
+		$('#share').html(data);
+	}, 'html');
+	
 	( function() {
 		if (window.CHITIKA === undefined) {
 		  window.CHITIKA = { 'units' : [] };
@@ -66,5 +70,6 @@ $(function(){
 			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
 		})();
 	})();
+
 });
 
