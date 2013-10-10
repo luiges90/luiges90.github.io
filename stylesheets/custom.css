@@ -23,7 +23,7 @@ iframe[id^="twitter-widget"] {
 	width: 80px !important;
 }
 
-[id^="__plus"] iframe { vertical-align: middle; }
+[id^="___plus"] iframe { vertical-align: middle; }
 
 @media (min-width: 550px) {
 	#ad-unit {
