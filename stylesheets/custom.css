@@ -16,7 +16,7 @@
 #share {
 	max-width: 250px;
 	margin: 0 auto;
-	text-align: middle;
+	text-align: center;
 }
 
 iframe[id^="twitter-widget"] {
