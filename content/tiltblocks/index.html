@@ -283,7 +283,7 @@ function trackOutboundLink(link, category, action) {
 <script type="text/javascript">
 	$('#comment-open').click(function(){
 		$('#disqus_thread').fadeIn();
-		$('body').one('click', function(){
+		$(document).one('click', function(){
 			$('#disqus_thread').fadeOut();
 		});
 		return false;
