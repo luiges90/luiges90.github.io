@@ -7,7 +7,7 @@ $(function(){
 	
 	$('.changelog-btn').click(function(){
 		$(this).parent().next('.changelog-content').fadeIn();
-		$('body').one('click', function(){
+		$(document).one('click', function(){
 			$('.changelog-content').fadeOut();
 		});
 		return false;
