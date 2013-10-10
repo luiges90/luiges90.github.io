@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Need No Name. by luiges90</title>
+    <link rel="stylesheet" href="../stylesheets/styles.css">
+    <link rel="stylesheet" href="../stylesheets/pygment_trac.css">
+	<link rel="stylesheet" href="../stylesheets/custom.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="../javascripts/custom.js"></script>
+    <script src="../javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+    <div id="header"></div>
+
+    <div class="wrapper">
+		
+<div id="ad-unit"></div>
+
+		<section>
+
+		<article>
+
+			<header>
+				<h1>$(document) vs $('body') - a (subtle) difference</h1>
+				<time datetime="2013-10-10" pubdate>10th October, 2013</time>
+			</header>
+		
+			<p>
+				While working on the site, and creating a very simple popup that closes when I click anywhere, I ran into a problem.
+			</p>
+			<pre>
+$('#open-popup').click(function(){
+	$('#some-popup').fadeIn();
+	$('body').one('click', function(){
+		$('#some-popup').fadeOut();
+	});
+	return false;
+});
+			</pre>
+			<p>
+				Looks good? Indeed it was. Until when placed in my game pages. The problem is demostrated <a href="http://jsfiddle.net/wXkK8/1/" target="_blank">here</a>.
+			</p>
+			<p>
+				Try to click the popup, it closes, good!
+			</p>
+			<p>
+				Try to click the texts behind, it closes, good!
+			</p>
+			<p>
+				Try to click the empty space around the popup, ouch. In Chrome 30 and Firefox 24, it does not close.
+			</p>
+			<p>
+				<b>It is because the body does not span the entire window area.</b>
+				<img src="images/body-is-not-full-page.png" alt="In inspector, we see the <body> element does not span entire page." title="In inspector, we see the <body> element does not span entire page.">
+			</p>
+			<p>
+				It becomes a problem in my game pages, when the body is just a line of text because all other elements are placed absolutely or fixedly. (i.e. with <code>position: absolute;</code> or <code>position: fixed;</code>) and <a href="http://stackoverflow.com/questions/11917168/what-are-the-css-properties-that-get-elements-out-of-the-normal-flow" target="_blank">taken out of the flow</a>. And when I say it is taken out of the flow, it no longer contribute to the body. And <code>$('body')</code> only consider that small piece of text, not the entire window.
+			</p>
+			<p>
+				To fix this, just use <code>$(document)</code>, as demostrated <a href="http://jsfiddle.net/SGqCX/1/" target="_blank">here.</a>
+			</p>
+			<pre>
+$('#open-popup').click(function(){
+	$('#some-popup').fadeIn();
+	$(document).one('click', function(){
+		$('#some-popup').fadeOut();
+	});
+	return false;
+});
+			</pre>
+			<p>
+				While in most cases <code>$('body')</code> seems to be the same as <code>$(document)</code>, they are not always so.
+			</p>
+		</article>
+		
+		<section>
+			
+			<div id="disqus_thread"></div>
+
+		</section>
+
+      </section>
+
+    </div>
+	
+	<div id="footer"></div>
+
+  </body>
+</html>
