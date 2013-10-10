@@ -180,7 +180,7 @@
 
 </div>
 
-<div style="
+<div id="game-top-header" style="
     width: 100%;
     margin: 0 auto;
     color: #b6b6b6;
@@ -188,12 +188,32 @@
     font-size: 16px;
     line-height: 20px;
 	text-align: center;
-"><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" style="
-    display: inline;
+">
+<style scoped>
+#game-top-header iframe[id^="twitter-widget"] { vertical-align: middle; width: 80px !important; }
+</style>
+	
+Like this game? Spread the word
+<a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<div class="g-plus" data-action="share" data-annotation="bubble" data-height="15" style="display: inline"></div>
+<script type="text/javascript">
+  (function() {
+	var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+	po.src = 'https://apis.google.com/js/plusone.js';
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+
+<a href="http://www.reddit.com/submit" onclick="window.location = 'http://www.reddit.com/submit?url=' + encodeURIComponent(window.location); return false"> <img src="http://www.reddit.com/static/spreddit1.gif" alt="submit to reddit" border="0" /> </a>
+or
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" style="
+    display: inline; position: relative; top: -2px;
 ">
 <input type="hidden" name="cmd" value="_s-xclick">
 <input type="hidden" name="hosted_button_id" value="BCN27A5M9VDQ2">
-<input type="submit" border="0" name="submit" value="Like this game? Consider buying me a tea. :)" style="
+<input type="submit" border="0" name="submit" value="Consider buying me a tea. :)" style="
     background: none!important;       
 	border:none;        
 	padding:0!important;
