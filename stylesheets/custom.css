@@ -23,8 +23,6 @@ iframe[id^="twitter-widget"] {
 	width: 80px !important;
 }
 
-[id^="___plus"] iframe { vertical-align: middle; }
-
 @media (min-width: 550px) {
 	#ad-unit {
 		width: 550px;
