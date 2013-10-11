@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Need No Name. by luiges90</title>
+    <link rel="stylesheet" href="../stylesheets/styles.css">
+    <link rel="stylesheet" href="../stylesheets/pygment_trac.css">
+	<link rel="stylesheet" href="../stylesheets/custom.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="../javascripts/custom.js"></script>
+    <script src="../javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+    <div id="header"></div>
+
+    <div class="wrapper">
+
+		<section>
+		
+		<div id="ad-unit"></div>
+
+		<article>
+
+			<header>
+				<h1>Disqus on a popup, and it hates display: none;</h1>
+				<time datetime="2013-10-11" pubdate>11th October, 2013</time>
+			</header>
+			
+			<p>
+				When I am trying to put the Disqus comment thread in <a href="document-vs-body-a-subtle-difference.html">my simple popup</a> in my game pages, weird thing happens. Let go to the code... 
+			</p>
+			
+			<pre>
+&lt;div id="comment-open" style="/*Lots of unrelated styles*/"&gt;Comments&lt;/div&gt;
+
+&lt;div id="disqus_thread" style="display: none; position: absolute; /*And popup styles follows...*/"&gt;&lt;/div&gt;
+
+&lt;script type="text/javascript"&gt;
+	$('#comment-open').click(function(){
+		$('#disqus_thread').fadeIn();
+		$(document).one('click', function(){
+			$('#disqus_thread').fadeOut();
+		});
+		return false;
+	});
+&lt;/script&gt;</pre>
+			
+			<p>
+				However, Disqus seem to hate this code, and behaves weirdly in different browsers. In Chrome 30, the Disqus spans a really tall element, even though it takes little space.
+				<img src="images/disqus-vs-display-none-chrome.png" alt="Disqus element shown from display:none in Chrome" title=":(">
+				But in Firefox 24 (and IE), the entire Disqus simply refuses to load.
+				<img src="images/disqus-vs-display-none-firefox.png" alt="Disqus element shown from display:none in Firefox" title=":(">
+				When I find the web, implementations of putting Disqus onto a popup involves the use of AJAX, and support multiple threads in same page. However, I don't need to support multiple threads, hm...
+			</p>
+			
+			<p>
+				Indeed, the reason of weird behaviour is, simply, <code>display: none;</code> of the container at load time. The Disqus script just refuses to work when it starts to execute and finds that its parent element is not shown at all.
+			</p>
+			
+			<p>
+				As this is a popup, there is an easy fix. Rather than using all sort of AJAX and complicated stuff, just use <code>opacity</code>.
+			</p>
+			
+			<pre>
+&lt;div id="disqus_thread" style="zoom: 1; opacity: 0; filter: alpha(opacity=0); /*And popup styles follows...*/"&gt;&lt;/div&gt;
+
+&lt;script type="text/javascript"&gt;
+	$('#comment-open').click(function(){
+		$('#disqus_thread').animate({'opacity': 1});
+		$(document).one('click', function(){
+			$('#disqus_thread').animate({'opacity': 0});
+		});
+		return false;
+	});
+&lt;/script&gt;</pre>
+			
+			<p>
+				A little hack that works well in any browsers. Good! (Of course, take care of <a href="http://css-tricks.com/css-transparency-settings-for-all-broswers/">Opacity compatibility issues</a>. jQuery is clever enough to do that for me :). )
+			</p>
+			
+			<p>
+				Maybe there are other 3rd party integrations that suffer from similar problem, and similar solution may be used too.
+			</p>
+
+		</article>
+		
+		<section>
+			
+			<div id="share"></div>
+			<div id="disqus_thread"></div>
+
+		</section>
+
+      </section>
+
+    </div>
+	
+	<div id="footer"></div>
+
+  </body>
+</html>
