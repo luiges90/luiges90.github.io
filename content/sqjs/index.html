@@ -195,7 +195,7 @@ function trackOutboundLink(link, category, action) {
 			clearInterval(probeDisqusId);
 		}
 	};
-	var probeDisqusId(probeDisqus, 10);
+	var probeDisqusId = setInterval(probeDisqus, 10);
 </script>
 </body>
 </html>
