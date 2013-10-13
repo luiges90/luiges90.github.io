@@ -181,9 +181,9 @@ function trackOutboundLink(link, category, action) {
 
 <script type="text/javascript">
 	$('#comment-open').click(function(){
-		$('#disqus_thread').animate({'opacity': 1}).css('z-index', 1000).fadeIn();
+		$('#disqus_thread').animate({'opacity': 1}).css('z-index', 1000);
 		$(document).one('click', function(){
-			$('#disqus_thread').animate({'opacity': 0}).fadeOut();
+			$('#disqus_thread').animate({'opacity': 0}).css('z-index', -1000).blur();
 		});
 		return false;
 	});
