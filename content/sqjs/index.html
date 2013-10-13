@@ -188,7 +188,6 @@ function trackOutboundLink(link, category, action) {
 		}
 		$(document).one('click', function(){
 			$('#disqus_thread').animate({'opacity': 0}, function(){
-				$('#disqus_thread').css('z-index', -1000);
 				if (!disqusIframe) {
 					disqusIframe = $('#disqus_thread iframe');
 				}
