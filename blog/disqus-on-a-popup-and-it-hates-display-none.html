@@ -67,7 +67,24 @@
 			</p>
 			
 			<p>
-				As this is a popup, there is an easy fix. Rather than using all sort of AJAX and complicated stuff, just use <code>opacity</code>.
+				As this is a popup, I thought there is an easy fix. Rather than using all sort of AJAX and complicated stuff, just use <code>opacity</code>.
+			</p>
+			
+			<pre>
+&lt;div id="disqus_thread" style="zoom: 1; opacity: 0; filter: alpha(opacity=0); /*And popup styles follows...*/"&gt;&lt;/div&gt;
+
+&lt;script type="text/javascript"&gt;
+	$('#comment-open').click(function(){
+		$('#disqus_thread').animate({'opacity', 1);
+		$(document).one('click', function(){
+			$('#disqus_thread').animate({'opacity', 0);
+		});
+		return false;
+	});
+&lt;/script&gt;</pre>
+			
+			<p>
+				<b>EDIT (13 Oct 2013): </b>Unfortunately, this caused my game to break, because their iframe overrides my game controls. All my mouse buttons and keyboard controls, once inside their iframe (popup) area, got captured by their iframe instead of my game. While setting <code>z-index</code> of popup to behind my game, and only put it up when popup is on, prevent their iframe taking over my game controls, when I try to comment and let their iframe takes the keyboard focus, it refuses to release the focus when closing the popup.
 			</p>
 			
 			<pre>
@@ -75,28 +92,50 @@
 
 &lt;script type="text/javascript"&gt;
 	$('#comment-open').click(function(){
+		$('#disqus_thread').animate({'opacity', 1).css('z-index', 1000);
+		$(document).one('click', function(){
+			$('#disqus_thread').animate({'opacity', 0).css('z-index', -1000);
+		});
+		return false;
+	});
+&lt;/script&gt;</pre>
+
+			<p>
+				So I look for answer to force Disqus iframe to relinquish control when the popup closed i.e. blur the iframe. Unforunately <a href="http://stackoverflow.com/a/9976332/1583566">this does not work because of same-origin policy</a>, <a href="http://stackoverflow.com/a/6823574/1583566">and I am actually not going to put an overlay to the popup (which is already a overlay!) either</a>.
+			</p>
+			
+			<p>
+				Hence, I ended up a radical approach - remove the iframe entirely, while store its content to a variable and add it back when the popup reopens.
+			</p>
+			
+			<pre>
+&lt;div id="disqus_thread" style="zoom: 1; opacity: 0; filter: alpha(opacity=0); z-index: -1000; /*And popup styles follows...*/"&gt;&lt;/div&gt;
+
+&lt;script type="text/javascript"&gt;
+	var disqusIframe = null;
+	$('#comment-open').click(function(){
 		$('#disqus_thread').animate({'opacity': 1}).css('z-index', 1000);
+		if (disqusIframe) {
+			$('#disqus_thread').append(disqusIframe);
+		}
 		$(document).one('click', function(){
 			$('#disqus_thread').animate({'opacity': 0}, function(){
-				$('#disqus_thread').css('z-index', -1000);
+				if (!disqusIframe) {
+					disqusIframe = $('#disqus_thread iframe');
+				}
+				$('#disqus_thread iframe').remove();
 			});
 		});
 		return false;
 	});
 &lt;/script&gt;</pre>
-			
+
 			<p>
-				A little hack that works well in any browsers. Good! (Of course, take care of <a href="http://css-tricks.com/css-transparency-settings-for-all-broswers/">Opacity compatibility issues</a>. jQuery is clever enough to do that for me :). )
+				This worked, in all browsers. However, in Firefox 24 there is a noticeable lag after closing the popup. Of course, when popup reopens it takes time to reload the entire Disqus, but if you have typed something in the Disqus comment textarea before, the content is retained.
 			</p>
 			
 			<p>
-				Maybe there are other 3rd party integrations that suffer from similar problem, and similar solution may be used too.
-			</p>
-			
-			<p>
-				<b>EDIT (13 Oct 2013): </b>This caused my game to break, because their iframe overrides my game controls. Adding <code>z-index</code> fixed the problem somehow, but refuses to release focus to my game once trying to comment. Let me see...
-				
-				
+				Maybe there are better solutions out there, and let me know!
 			</p>
 
 		</article>
