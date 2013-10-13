@@ -35,6 +35,37 @@
 				<time datetime="2013-10-13" pubdate>Updated 13th October, 2013</time>
 			</header>
 			
+			<h3>
+				For those who don't read.
+			</h3>
+			
+			<pre>
+&lt;This is what I ended up doing&gt;
+&lt;div id="disqus_thread" style="zoom: 1; opacity: 0; filter: alpha(opacity=0); z-index: -1000; /*And popup styles follows...*/"&gt;&lt;/div&gt;
+
+&lt;script type="text/javascript"&gt;
+	var disqusIframe = null;
+	$('#comment-open').click(function(){
+		$('#disqus_thread').animate({'opacity': 1}).css('z-index', 1000);
+		if (disqusIframe) {
+			$('#disqus_thread').append(disqusIframe);
+		}
+		$(document).one('click', function(){
+			$('#disqus_thread').animate({'opacity': 0}, function(){
+				if (!disqusIframe) {
+					disqusIframe = $('#disqus_thread iframe');
+				}
+				$('#disqus_thread iframe').remove();
+			});
+		});
+		return false;
+	});
+&lt;/script&gt;</pre>
+			
+			<h3>
+				Now, the story.
+			</h3>
+			
 			<p>
 				When I am trying to put the Disqus comment thread in <a href="document-vs-body-a-subtle-difference.html">my simple popup</a> in my game pages, weird thing happens. Let go to the code... 
 			</p>
@@ -139,7 +170,7 @@
 			</p>
 			
 			<p>
-				Maybe there are better solutions out there, and let me know!
+				Maybe there are better solutions out there, and please let me know!  would definitely appreciate it.
 			</p>
 
 		</article>
