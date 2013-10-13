@@ -188,12 +188,14 @@ function trackOutboundLink(link, category, action) {
 		return false;
 	});
 	
-	setInterval(function(){
+	var probeDisqus = function(){
 		var $dsq = $("iframe [id^=dsq]");
 		if ($dsq.length > 0) {
 			$('#disqus_thread').css('display', 'none');
+			clearInterval(probeDisqusId);
 		}
-	}), 10);
+	};
+	var probeDisqusId(probeDisqus, 10);
 </script>
 </body>
 </html>
