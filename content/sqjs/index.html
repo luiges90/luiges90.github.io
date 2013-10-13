@@ -186,6 +186,7 @@ function trackOutboundLink(link, category, action) {
 			$('#disqus_thread').animate({'opacity': 0}, function(){
 				$('#disqus_thread').css('z-index', -1000);
 			});
+			$('#disqus_thread')[0].contents().find('body').blur();
 		});
 		return false;
 	});
