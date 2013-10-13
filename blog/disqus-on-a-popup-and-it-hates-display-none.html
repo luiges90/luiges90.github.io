@@ -71,13 +71,13 @@
 			</p>
 			
 			<pre>
-&lt;div id="disqus_thread" style="zoom: 1; opacity: 0; filter: alpha(opacity=0); /*And popup styles follows...*/"&gt;&lt;/div&gt;
+&lt;div id="disqus_thread" style="zoom: 1; opacity: 0; filter: alpha(opacity=0); z-index: -1000; /*And popup styles follows...*/"&gt;&lt;/div&gt;
 
 &lt;script type="text/javascript"&gt;
 	$('#comment-open').click(function(){
-		$('#disqus_thread').animate({'opacity': 1});
+		$('#disqus_thread').animate({'opacity': 1}).css('z-index', 1000);
 		$(document).one('click', function(){
-			$('#disqus_thread').animate({'opacity': 0});
+			$('#disqus_thread').animate({'opacity': 0}).css('z-index', -1000);
 		});
 		return false;
 	});
@@ -89,6 +89,12 @@
 			
 			<p>
 				Maybe there are other 3rd party integrations that suffer from similar problem, and similar solution may be used too.
+			</p>
+			
+			<p>
+				<b>EDIT (13 Oct 2013): </b>This caused my game to break, because their iframe overrides my game controls. Adding <code>z-index</code> fixed the problem somehow, but refuses to release focus to my game once trying to comment. Let me see...
+				
+				
 			</p>
 
 		</article>
