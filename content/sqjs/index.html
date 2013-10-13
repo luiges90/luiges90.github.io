@@ -180,13 +180,18 @@ function trackOutboundLink(link, category, action) {
 </script>
 
 <script type="text/javascript">
+	var disqusIframe = null;
 	$('#comment-open').click(function(){
 		$('#disqus_thread').animate({'opacity': 1}).css('z-index', 1000);
+		if (disqusIframe) {
+			$('#disqus_thread').append(disqusIframe);
+		}
 		$(document).one('click', function(){
 			$('#disqus_thread').animate({'opacity': 0}, function(){
 				$('#disqus_thread').css('z-index', -1000);
+				disqusIframe = $('#disqus_thread iframe');
+				$('#disqus_thread iframe').remove();
 			});
-			$('#disqus_thread')[0].contents().find('body').blur();
 		});
 		return false;
 	});
