@@ -32,7 +32,7 @@
 
 			<header>
 				<h1>Disqus on a popup, and it hates display: none;</h1>
-				<time datetime="2013-10-11" pubdate>11th October, 2013</time>
+				<time datetime="2013-10-13" pubdate>Updated 13th October, 2013</time>
 			</header>
 			
 			<p>
@@ -84,7 +84,11 @@
 &lt;/script&gt;</pre>
 			
 			<p>
-				<b>EDIT (13 Oct 2013): </b>Unfortunately, this caused my game to break, because their iframe overrides my game controls. All my mouse buttons and keyboard controls, once inside their iframe (popup) area, got captured by their iframe instead of my game. While setting <code>z-index</code> of popup to behind my game, and only put it up when popup is on, prevent their iframe taking over my game controls, when I try to comment and let their iframe takes the keyboard focus, it refuses to release the focus when closing the popup.
+				<b>EDIT (13 Oct 2013): </b>Unfortunately, this caused my game to break, because their iframe overrides my game controls. All my mouse buttons and keyboard controls, once inside their iframe (popup) area, got captured by their iframe instead of my game. 
+			</p>
+			
+			<p>
+				While setting <code>z-index</code> of popup to behind my game, and only put it up when popup is on, prevent their iframe taking over my game controls, when I try to comment and let their iframe takes the keyboard focus, it refuses to release the focus when closing the popup.
 			</p>
 			
 			<pre>
