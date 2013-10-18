@@ -110,17 +110,19 @@
 			</p>
 			<h2>Canvas vs. DOM Sprites</h2>
 			<p>
-				As usual, it really depends on what you want to do. They are just two different tools. You can see their performance may vary depends on how you use it. After all, they have different advantages.
+				As usual, it really depends on what you want to do. They are just two different tools. You can see their performance may vary depends on how you use it. After all, they have different advantages. From this experience, we can see:
 			</p>
 			<p>For DOM Sprites, you have
 				<ul>
 					<li>Remove the burden of finding out where the mouse is, in terms of which element it is on.</li>
 					<li>More established, ready-to-use solutions (such as scroll pane, simple animations).</li>
+					<li>Works with IE &lt;=8.</li>
 				</ul>
 			</p>
 			<p>For HTML5 Canvas, you have
 				<ul>
-					<li>Better performance, because of less overhead of keeping track of each <code>div</code> element.</li>
+					<li>Better performance in modern browser and good machine, because of less overhead of keeping track of each <code>div</code> element.</li>
+					<li>Supports WebGL, better support for Box2D and such</li>
 				</ul>
 			</p>
 		</article>
