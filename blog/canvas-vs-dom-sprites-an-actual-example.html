@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Need No Name. by luiges90</title>
+    <link rel="stylesheet" href="../stylesheets/styles.css">
+    <link rel="stylesheet" href="../stylesheets/pygment_trac.css">
+	<link rel="stylesheet" href="../stylesheets/custom.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="../javascripts/custom.js"></script>
+    <script src="../javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+    <div id="header"></div>
+
+    <div class="wrapper">
+
+		<section>
+		
+		<div id="ad-unit"></div>
+
+		<article>
+
+			<header>
+				<h1>Canvas vs. DOM Sprites: An actual experience.</h1>
+				<time datetime="2013-10-18" pubdate>18th October, 2013</time>
+			</header>
+
+			<p>
+				Some may ask, whether I should use Canvas or DOM to create a game running on modern browsers? <a href="https://www.google.com/search?q=Canvas+vs.+DOM+Sprites" target="_blank">There are a few articles out there</a>, However, I would like to share a bit of my experience of both technologies.
+			</p>
+			<h2>DOM Sprites - Tilt Blocks</h2>
+			<p>
+				<a href="/content/tiltblocks" target="_blank">Tilt Blocks</a>, a puzzle game, is entirely written in DOM Sprites.
+			</p>
+			<img src="images/tb-firefox-3d-view.png" alt="Tilt Blocks screenshot in Firefox 3D View" title="Tilt Blocks screenshot in Firefox 3D View">
+			<img src="images/tb-div-elem.png" alt="Tilt Blocks element view, in Firefox" title="Tilt Blocks element view, in Firefox">
+			<p>
+				Basically, each scene, the game board, controls, and down to each element are a hirerachy of <code>&lt;div&gt;</code> elements, as you can find in <a href="https://github.com/luiges90/TiltBlocks/blob/master/tb.html">the code</a>. Some divs are empty, as they are to be populated by Javascript. While some others, mostly elements which do not change due the entire session, has elements pre-placed in it.
+			</p>
+			<h3>Why?</h3>
+			<p>
+				To be frank, it is because I am not ready to learn a new technology at that time, while I was fairly familiar with DOM (really, <code>&lt;div&gt;</code>s) manuipulation by JQuery, used extensively to manipulate the DOM. However, as the code grows, there are a few benefits of doing this:
+				<ul>
+					<li>The level editor becomes surprisingly easy to code. More on that later.</li>
+					<li>No need to handle where is the mouse and determine what is clicked - just do <code>$('#elem').click(function(){...});</code></li>
+					<li>Moving blocks around is easy, just do <code>$('.elem').animate({...});</code>. Don't forget to change internal state too (also required in canvas.)</li>
+					<li>Old browsers (namely, the hated IE8) support - even though this is not my requirement, it is definitely a plus. (Tried this, IE8 looks quite good, and even IE7 is playable (though there are layout issues)).</li>
+				</ul>
+				For animations, I could have used CSS Transitions, but I didn't notice at that time... Maybe back to that when I have interest in it.
+			</p>
+			<h3>Level Editor?</h3>
+			<p>
+				If I were to use canvas to implement the game as well as the level editor, not just I have to deal with clicks by hand, the scrollpane (palette of elements) would also have to be implemented by hand, and this already sounds tricky, and I even need to capture clicks inside... (Anyone wants to do this may want to look at <a href="http://stackoverflow.com/questions/11915094/custom-scrolling-on-html5-canvas" target="_blank">this question</a> over StackOverflow, though.)
+			</p>
+			<p>
+				However, with DOM, this become trivial. With help of a plugin familiar to me (<a href="http://jscrollpane.kelvinluck.com/" target="_blank">jScrollPane</a>), I can easily create the scrollpane. And the editor was done in just one or two days.
+			</p>
+			<h3>Gotchas?</h3>
+			<p>
+				Sure. At first, I populated the entire board with divs (i.e. even empty block has a div in it). However, when I move it, problem arises - divs of empty element and actual blocks moved overlaps. This breaks the entire thing of one block occupies one space. Of course I can move empty blocks around, but as many blocks in a row can be moved at once, quite a number of empty divs can be displaced, complicate things, and causes slow down.  Moreover, it appears that the performance isn't that good. 
+			</p>
+			<p>
+				So, I decided to let empty space be no div there. Less divs mean better performance.
+			</p>
+			<p>
+				Another gotcha is, remember to associate the div with the corresponding entity in the game state. Only this can leverage the DOM easily and simply. Few CSS classes would do. Specification varies from game to game really. In Tilt Blocks, it is specified by its location, in format r2c3. This way, we can easily pick up an element on a specified position, and then move it.
+			</p>
+			<p>
+				However, this way only works if there is only one (movable) element in any position at any time. In Tilt Blocks, I have used another class specifiying its type (red, arrows, etc...), and as only a few type of blocks can move around, I can just use <code>$('.r1c1').not('.classes')</code> to filter out immovable things. This works because all movable blocks will never overlap.
+			</p>
+			<h2>Canvas - Sq</h2>
+			<p>
+				<a href="/content/sq" target="_blank">Sq</a>, a Geometry war clone, was mostly implemented in Canvas instead. However, the minimal UI that you see in the front page as well as highscore page still uses DOM. (Not sprites really, I would call it a DOM-based layout like ordinary websites.)
+			</p>
+			<img src="images/sq-canvas.png" alt="Sq Screenshot, showing use of canvas." title="Sq Screenshot, showing use of canvas">
+			<p>
+				At first, I also tried to use DOM Sprites in this project. And you guessed it, each square enemy, circle player, circle bullets, and the texts are all a single <code>div</code>. And, rotation can be done with CSS Translations. (No particle effects have been implemented at that time.)
+			</p>
+			<p>
+				However, when there is a hundred divs. (Which is typical especially at later stages), it is very slow... It's like, at most 10 FPS I think - totally unacceptable (Note: there was no serious measurement). My machine is not slow at all (a 4 years old entry-level laptop), and should handle 2D games pretty easily...
+			</p>
+			<p>
+				This was not a problem in Tilt Blocks, because that game is pretty static and see, there isn't even a game loop! Tilt blocks was entirely event-driven, but Sq is not.
+			</p>
+			<p>
+				More importantly, there is no need capture mouse click on a certain element (Except the UI part), and there is no need to retrieve the status from drawn elements (because all those are kept track by Box2D.) That said, <b>the big advantage of DOM Sprite cannot be leveraged.</b>
+			</p>
+			<p>
+				As a side note, indeed, even if I have to determine where the mouse is, in terms of game element, it is not difficult thanks to Box2D built-in functions.
+			</p>
+			<p>
+				Hence, I switched to canvas.
+			</p>
+			<p>
+				And with canvas, hundreds, even thousands of elements can be drawn without too much delay. Even with particles the game rarely lags. For even more elements, it could slow down, but the burden is actually on the internals (mainly, collision detection of Box2D), rather than rendering.
+			</p>
+			<h3>Gotchas?</h3>
+			<p>
+				As I have said, the entire game is actually a hybrid approach. The UI and scene switch is ordinary DOM while the main game is canvas. This way I can leverage the efficiency of canvas in the main game, while making the relatively static main page and highscore page easy to implement (because there is no need to determine mouse position and button position when clicking).
+			</p>
+			<h2>Canvas vs. DOM Sprites</h2>
+			<p>
+				As usual, it really depends on what you want to do. They are just two different tools. You can see their performance may vary depends on how you use it. After all, they have different advantages.
+			</p>
+			<p>For DOM Sprites, you have
+				<ul>
+					<li>Remove the burden of finding out where the mouse is, in terms of which element it is on.</li>
+					<li>More established, ready-to-use solutions (such as scroll pane, simple animations).</li>
+				</ul>
+			</p>
+			<p>For HTML5 Canvas, you have
+				<ul>
+					<li>Better performance, because of less overhead of keeping track of each <code>div</code> element.</li>
+				</ul>
+			</p>
+		</article>
+		
+		<section>
+			
+			<div id="share"></div>
+			<div id="disqus_thread"></div>
+
+		</section>
+
+      </section>
+
+    </div>
+	
+	<div id="footer"></div>
+
+  </body>
+</html>
