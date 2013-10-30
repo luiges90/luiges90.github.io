@@ -36,22 +36,22 @@
 			</header>
 
 			<p>
-				... possibly you need to fix your <code>rect</code> definition.
+				... possibly you need to fix your <code>rect</code> definition and ensure the second argument is smaller than the fourth argument. (And possibly the first argument is smaller than the third, too.)
 			</p>
 			
 			<h2>Symptom</h2>
 			
 			<p>
-				The Android <a href="http://developer.android.com/reference/android/graphics/Canvas.html#drawArc(android.graphics.RectF, float, float, boolean, android.graphics.Paint)"><code>Canvas.drawArc</code></a> can only draw a full circle, but not an arc. i.e. This works and draws a full cirlce:
+				The Android <a href="http://developer.android.com/reference/android/graphics/Canvas.html#drawArc(android.graphics.RectF, float, float, boolean, android.graphics.Paint)"><code>Canvas.drawArc</code></a> can only draw a full circle, but not an arc. i.e. This works and draws a full circle:
 				<pre>
 RectF = new RectF();
-rectf.set(10, 100, 50, 10);
+rectf.set(10, 100, 50, 20);
 canvas.drawArc(rectf, 0, 360, false, paint);
 				</pre>
 				This does not work and draws nothing, when you would expect a semi-circle, without wedges:
 				<pre>
 RectF = new RectF();
-rectf.set(10, 100, 50, 10);
+rectf.set(10, 100, 50, 20);
 canvas.drawArc(rectf, 180, 360, false, paint);
 				</pre> 
 			</p>
@@ -60,11 +60,18 @@ canvas.drawArc(rectf, 180, 360, false, paint);
 			
 			<p>
 				After hours of bug-fixing, searching (and mentally banging the desk), <a href="https://groups.google.com/forum/#!topic/android-beginners/8XalW1yKt7o">I finally find the solution.</a> Apparently, while <a href="http://developer.android.com/reference/android/graphics/Rect.html#Rect(int, int, int, int)"><code>rect</code> constructor accepts positions of top-left corner and bottom-right corner</a>, in a full circle case it doesn't care, but not the arc case...
+			</p>
+			
+			<p>
+				The fix is:
 				<pre>
 RectF = new RectF();
-rectf.set(10, 10, 50, 100);
+rectf.set(10, 20, 50, 100);
 canvas.drawArc(rectf, 180, 360, false, paint);
 				</pre>
+			</p>
+			
+			<p>
 				In fact, just in the very documentation of <code>rect</code> I just given out, there is a line in its summary saying:
 				<blockquote>
 					Note: most methods do not check to see that the coordinates are sorted correctly (i.e. left <= right and top <= bottom).
@@ -86,9 +93,6 @@ rectf.set(e.getLeft(), canvas.getHeight() - e.getTop(), e.getRight(), canvas.get
 rectf.set(e.getLeft(), canvas.getHeight() - e.getBottom(), e.getRight(), canvas.getHeight() - e.getTop());
 				</pre>
 				And this wasted me hours.
-			</p>
-			<p>
-				Obviously, there is so much content in the Android world for me to explore :).
 			</p>
 			
 		</article>
