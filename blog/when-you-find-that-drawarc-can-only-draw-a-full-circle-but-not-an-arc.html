@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Need No Name. by luiges90</title>
+    <link rel="stylesheet" href="../stylesheets/styles.css">
+    <link rel="stylesheet" href="../stylesheets/pygment_trac.css">
+	<link rel="stylesheet" href="../stylesheets/custom.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="../javascripts/custom.js"></script>
+    <script src="../javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+    <div id="header"></div>
+
+    <div class="wrapper">
+
+		<section>
+		
+		<div id="ad-unit"></div>
+
+		<article>
+
+			<header>
+				<h1>Android Dev: when you find that Canvas.drawArc can only draw a full circle but not an arc...</h1>
+				<time datetime="2013-10-30" pubdate>30th October, 2013</time>
+			</header>
+
+			<p>
+				... possibly you need to fix your <code>rect</code> definition.
+			</p>
+			
+			<h2>Symptom</h2>
+			
+			<p>
+				The Android <a href="http://developer.android.com/reference/android/graphics/Canvas.html#drawArc(android.graphics.RectF, float, float, boolean, android.graphics.Paint)"><code>Canvas.drawArc</code></a> can only draw a full circle, but not an arc. i.e. This works and draws a full cirlce:
+				<pre>
+RectF = new RectF();
+rectf.set(10, 100, 50, 10);
+canvas.drawArc(rectf, 0, 360, false, paint);
+				</pre>
+				This does not work and draws nothing, when you would expect a semi-circle, without wedges:
+				<pre>
+RectF = new RectF();
+rectf.set(10, 100, 50, 10);
+canvas.drawArc(rectf, 180, 360, false, paint);
+				</pre> 
+			</p>
+			
+			<h2>Solution</h2>
+			
+			<p>
+				After hours of bug-fixing, searching (and mentally banging the desk), <a href="https://groups.google.com/forum/#!topic/android-beginners/8XalW1yKt7o">I finally find the solution.</a> Apparently, while <a href="http://developer.android.com/reference/android/graphics/Rect.html#Rect(int, int, int, int)"><code>rect</code> constructor accepts positions of top-left corner and bottom-right corner</a>, in a full circle case it doesn't care, but not the arc case...
+				<pre>
+RectF = new RectF();
+rectf.set(10, 10, 50, 100);
+canvas.drawArc(rectf, 180, 360, false, paint);
+				</pre>
+				In fact, just in the very documentation of <code>rect</code> I just given out, there is a line in its summary saying:
+				<blockquote>
+					Note: most methods do not check to see that the coordinates are sorted correctly (i.e. left <= right and top <= bottom).
+				</blockquote>
+				Ouch. I wonder why Google doesn't do anything to prevent this (maybe swap the out-of-order parameters in the constructor). Well, possibly it is for efficiency sake.
+			</p>
+			
+			<p>
+				While it is easy to spot in above, in my case it is complicated by the fact that the input is using Cartesian coordinates (i.e. y-axis pointing upward), while the Android Canvas uses coordinates same as screen uses (i.e. y-axis pointing downward.). So, this cause everything be drawn upside down:
+				<pre>
+rectf.set(e.getLeft(), e.getTop(), e.getRight(), e.getBottom());
+				</pre>
+				And an obvious fix would be:
+				<pre>
+rectf.set(e.getLeft(), canvas.getHeight() - e.getTop(), e.getRight(), canvas.getHeight() - e.getBottom());
+				</pre>
+				And without noticing that this also causes ordering flip of <code>top</code> and <code>bottom</code> points. Ouch. The problem is (finally) fixed by this:
+				<pre>
+rectf.set(e.getLeft(), canvas.getHeight() - e.getBottom(), e.getRight(), canvas.getHeight() - e.getTop());
+				</pre>
+				And this wasted me hours.
+			</p>
+			<p>
+				Obviously, there is so much content in the Android world for me to explore :).
+			</p>
+			
+		</article>
+		
+		<section>
+			
+			<div id="share"></div>
+			<div id="disqus_thread"></div>
+
+		</section>
+
+      </section>
+
+    </div>
+	
+	<div id="footer"></div>
+
+  </body>
+</html>
